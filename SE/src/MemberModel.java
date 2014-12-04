@@ -9,12 +9,12 @@ public class MemberModel extends AbstractTableModel {
 	Vector list = new Vector(); 
 
 	public MemberModel() {
-		column.add("ì œëª©");
-		column.add("ì €ì");
-		column.add("ì¶œíŒì‚¬");
+		column.add("Á¦¸ñ");
+		column.add("ÀúÀÚ");
+		column.add("ÃâÆÇ»ç");
 		column.add("ISBN");
-		column.add("ëŒ€ì—¬ê°€ëŠ¥ì—¬ë¶€");
-		column.add("ëŒ€ì—¬í•œ í•™ìƒ");
+		column.add("´ë¿©°¡´É¿©ºÎ");
+		column.add("´ë¿©ÇÑ ÇĞ»ı");
 	}
 	
 	
