@@ -50,7 +50,7 @@ public class Lib_info_system extends JFrame implements ActionListener{
 	private JTable table;
 	private JScrollPane scroll;
 	private JRadioButton availability_yes, availability_no;
-	private ButtonGroup availability;
+	private ButtonGroup group_availability;
 	private JPanel south, north, center, p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12;
 	private JButton  b_search, b_insert, b_delete, b_update, b_rent_list;
 	
@@ -61,7 +61,7 @@ public class Lib_info_system extends JFrame implements ActionListener{
 	private String dbURL = "jdbc:mysql://localhost:3307/lib_info_system";	
 	private Connection conn;
 	private PreparedStatement prestate;
-	private ResultSet rs, duplicate_checker;		
+	private ResultSet rs;		
 	
 	
 	private MemberModel model = new MemberModel();
@@ -69,35 +69,35 @@ public class Lib_info_system extends JFrame implements ActionListener{
 
 	public Lib_info_system()
 	{
-		super("µµ¼­ Á¤º¸ °ü¸® ÇÁ·Î±×·©");
+		super("ë„ì„œ ì •ë³´ ê´€ë¦¬ í”„ë¡œê·¸ë­");
 		
-		// ·¹ÀÌ¾Æ¿ô
+		// ë ˆì´ì•„ì›ƒ
 		l_id = new JLabel("ID");
 		l_pw = new JLabel("PW");
-		l_name = new JLabel("ÀÌ¸§");
-		l_dept = new JLabel("Àü°ø");
+		l_name = new JLabel("ì´ë¦„");
+		l_dept = new JLabel("ì „ê³µ");
 		
 		txt_id = new JTextField(10);
 		txt_pw = new JPasswordField(10);
 		txt_name = new JTextField(10);
 		txt_dept = new JTextField(10);
 		
-		b_login = new JButton("·Î±×ÀÎ");
-		b_logout = new JButton("·Î±×¾Æ¿ô");
-		b_signup = new JButton("È¸¿ø°¡ÀÔ");
-		b_librarian = new JButton("»ç¼­°¡ÀÔ");
-		b_student = new JButton("ÇĞ»ı°¡ÀÔ");
-		b_register = new JButton("È¸¿øµî·Ï");
-		b_cancel = new JButton("°¡ÀÔÃë¼Ò"); 
+		b_login = new JButton("ë¡œê·¸ì¸");
+		b_logout = new JButton("ë¡œê·¸ì•„ì›ƒ");
+		b_signup = new JButton("íšŒì›ê°€ì…");
+		b_librarian = new JButton("ì‚¬ì„œê°€ì…");
+		b_student = new JButton("í•™ìƒê°€ì…");
+		b_register = new JButton("íšŒì›ë“±ë¡");
+		b_cancel = new JButton("ê°€ì…ì·¨ì†Œ"); 
 		
 		l_blank = new JLabel("  ");
-		l_title = new JLabel("µµ ¼­ Á¦ ¸ñ");
-		l_authors = new JLabel("Àú            ÀÚ");
-		l_publisher = new JLabel("Ãâ    ÆÇ    »ç");
+		l_title = new JLabel("ë„ ì„œ ì œ ëª©");
+		l_authors = new JLabel("ì €            ì");
+		l_publisher = new JLabel("ì¶œ    íŒ    ì‚¬");
 		l_isbn = new JLabel("I    S    B    N");
-		l_availability = new JLabel("´ë¿©°¡´É¿©ºÎ");
-		l_renting_student = new JLabel("ºô·Á°£ÇĞ»ı");
-		l_search = new JLabel("µµ¼­°Ë»ö");
+		l_availability = new JLabel("ëŒ€ì—¬ê°€ëŠ¥ì—¬ë¶€");
+		l_renting_student = new JLabel("ë¹Œë ¤ê°„í•™ìƒ");
+		l_search = new JLabel("ë„ì„œê²€ìƒ‰");
 		
 		txt_title = new JTextField(20);
 		txt_authors = new JTextField(20);
@@ -106,17 +106,17 @@ public class Lib_info_system extends JFrame implements ActionListener{
 		txt_renting_student = new JTextField(20);
 		txt_keyword = new JTextField(20);
 		
-		availability = new ButtonGroup();
-		availability_yes = new JRadioButton("´ë¿©°¡´É", false);
-		availability_no = new JRadioButton("´ë¿©ºÒ°¡", false);
-		availability.add(availability_yes);
-		availability.add(availability_no);
+		group_availability = new ButtonGroup();
+		availability_yes = new JRadioButton("ëŒ€ì—¬ê°€ëŠ¥", false);
+		availability_no = new JRadioButton("ëŒ€ì—¬ë¶ˆê°€", false);
+		group_availability.add(availability_yes);
+		group_availability.add(availability_no);
 		
-		b_search = new JButton("°Ë»ö");
-		b_insert = new JButton("Ãß°¡");
-		b_delete = new JButton("»èÁ¦");
-		b_update = new JButton("¼öÁ¤");
-		b_rent_list = new JButton("´ë¿©¸ñ·ÏÈ®ÀÎ");
+		b_search = new JButton("ê²€ìƒ‰");
+		b_insert = new JButton("ì¶”ê°€");
+		b_delete = new JButton("ì‚­ì œ");
+		b_update = new JButton("ìˆ˜ì •");
+		b_rent_list = new JButton("ëŒ€ì—¬ëª©ë¡í™•ì¸");
 		
 		table = new JTable(model);
 		scroll = new JScrollPane(table);
@@ -237,18 +237,18 @@ public class Lib_info_system extends JFrame implements ActionListener{
 			public void mouseClicked(MouseEvent e) {
 				selRow = table.getSelectedRow();
 
-				String title = (String) table.getValueAt(selRow, 0);
-				String authors = (String) table.getValueAt(selRow, 1);
-				String publisher = (String) table.getValueAt(selRow, 2);
-				String isbn = (String) table.getValueAt(selRow, 3);
-				String renting_student = (String) table.getValueAt(selRow, 4);
-				String availability = (String) table.getValueAt(selRow, 5);
+				String att_title = (String) table.getValueAt(selRow, 0);
+				String att_authors = (String) table.getValueAt(selRow, 1);
+				String att_publisher = (String) table.getValueAt(selRow, 2);
+				String att_isbn = (String) table.getValueAt(selRow, 3);
+				String att_availability = (String) table.getValueAt(selRow, 4);
+				String att_renting_student = (String) table.getValueAt(selRow, 5);
 				
-				txt_title.setText(title);
-				txt_authors.setText(authors);
-				txt_publisher.setText(publisher);
-				txt_isbn.setText(isbn);
-				txt_renting_student.setText(renting_student);
+				txt_title.setText(att_title);
+				txt_authors.setText(att_authors);
+				txt_publisher.setText(att_publisher);
+				txt_isbn.setText(att_isbn);
+				txt_renting_student.setText(att_renting_student);
 				
 				txt_title.setEditable(true);
 				txt_authors.setEditable(true);
@@ -256,17 +256,17 @@ public class Lib_info_system extends JFrame implements ActionListener{
 				txt_isbn.setEditable(true);
 				txt_renting_student.setEditable(true);
 				
-				if(availability==null)
+				if(att_availability==null)
 				{
 					availability_yes.setSelected(false);
 					availability_no.setSelected(false);
 				}
 				else 
 				{
-					 if (availability.equals("´ë¿©°¡´É")){
+					 if (att_availability.equals("ëŒ€ì—¬ê°€ëŠ¥")){
 						 availability_yes.setSelected(true);
 					 }
-					 else if (availability.equals("´ë¿©ºÒ°¡")) {
+					 else if (att_availability.equals("ëŒ€ì—¬ë¶ˆê°€")) {
 						 availability_no.setSelected(true);
 					 }
 				}
@@ -303,10 +303,10 @@ public class Lib_info_system extends JFrame implements ActionListener{
 			conn = DriverManager.getConnection(dbURL, user, pass);
 			
 			if(conn != null)
-				System.out.println("DB ¿¬°á ¼º°ø");
+				System.out.println("DB ì—°ê²° ì„±ê³µ");
 			else
 			{
-				System.out.println("DB ¿¬°á ½ÇÆĞ");
+				System.out.println("DB ì—°ê²° ì‹¤íŒ¨");
 			}
 		}
 		catch(SQLException se)
@@ -521,15 +521,16 @@ public class Lib_info_system extends JFrame implements ActionListener{
 		b_register.setEnabled(false);
 		b_cancel.setEnabled(false);
 		
-		txt_title.setEditable(false);
-		txt_authors.setEditable(false);
-		txt_publisher.setEditable(false);
-		txt_isbn.setEditable(false);
-		txt_renting_student.setEditable(false);
+		txt_title.setEditable(true);
+		txt_authors.setEditable(true);
+		txt_publisher.setEditable(true);
+		txt_isbn.setEditable(true);
+		txt_renting_student.setEditable(true);
 		txt_keyword.setEditable(true);
 		
-		availability_yes.setEnabled(false);
-		availability_no.setEnabled(false);
+		availability_yes.setEnabled(true);
+		availability_yes.setSelected(true);
+		availability_no.setEnabled(true);
 		
 		b_search.setEnabled(true);
 		b_insert.setEnabled(true);
@@ -605,8 +606,8 @@ public class Lib_info_system extends JFrame implements ActionListener{
 			prestate.setString(4, position);
 			prestate.executeUpdate();
 				
-			System.out.println("»ç¼­ µî·Ï ¼º°ø");
-			//JOptionPane.showMessageDialog(getParent(), "È¸¿øµî·Ï ¼º°ø");	
+			System.out.println("ì‚¬ì„œ ë“±ë¡ ì„±ê³µ");
+			//JOptionPane.showMessageDialog(getParent(), "íšŒì›ë“±ë¡ ì„±ê³µ");	
 		} 
 		catch (SQLException e) 
 		{
@@ -627,8 +628,8 @@ public class Lib_info_system extends JFrame implements ActionListener{
 			prestate.setString(5, position);
 			prestate.executeUpdate();
 				
-			System.out.println("ÇĞ»ı µî·Ï ¼º°ø");
-			//JOptionPane.showMessageDialog(getParent(), "È¸¿øµî·Ï ¼º°ø");	
+			System.out.println("í•™ìƒ ë“±ë¡ ì„±ê³µ");
+			//JOptionPane.showMessageDialog(getParent(), "íšŒì›ë“±ë¡ ì„±ê³µ");	
 		} 
 		catch (SQLException e) 
 		{
@@ -639,16 +640,18 @@ public class Lib_info_system extends JFrame implements ActionListener{
 	private boolean check_user_info(String id, String pw, String name, String dept, String position) {
 		// TODO Auto-generated method stub
 		boolean result = true;
-		if(id == null || id.length() == 0)
+		
+				
+		if(id.isEmpty())
 		{
-			System.out.println("ID(ÇĞ¹ø È¤Àº »ç¹ø)¸¦ ÀÔ·ÂÇØÁÖ½Ê½Ã¿À.");
-			//JOptionPane.showMessageDialog(getParent(), "ID(ÇĞ¹ø È¤Àº »ç¹ø)¸¦ ÀÔ·ÂÇØÁÖ½Ê½Ã¿À.");
+			System.out.println("ID(í•™ë²ˆ í˜¹ì€ ì‚¬ë²ˆ)ë¥¼ ì…ë ¥í•´ì£¼ì‹­ì‹œì˜¤.");
+			//JOptionPane.showMessageDialog(getParent(), "ID(í•™ë²ˆ í˜¹ì€ ì‚¬ë²ˆ)ë¥¼ ì…ë ¥í•´ì£¼ì‹­ì‹œì˜¤.");
 			result = false;
 		}
-		else if(id.length()>10 || id.matches("[0-9]"))
+		else if(id.length()>10)
 		{
-			System.out.println("ID(ÇĞ¹ø È¤Àº »ç¹ø)´Â 10ÀÚ ÀÌ³»·Î ÀÔ·ÂÇØÁÖ½Ê½Ã¿À.");
-			//JOptionPane.showMessageDialog(getParent(), "ID(ÇĞ¹ø È¤Àº »ç¹ø)´Â 10ÀÚ ÀÌ³»·Î Á¤¼ö·Î ÀÔ·ÂÇØÁÖ½Ê½Ã¿À.");
+			System.out.println("ID(í•™ë²ˆ í˜¹ì€ ì‚¬ë²ˆ)ëŠ” 10ì ì´ë‚´ë¡œ ì…ë ¥í•´ì£¼ì‹­ì‹œì˜¤.");
+			//JOptionPane.showMessageDialog(getParent(), "ID(í•™ë²ˆ í˜¹ì€ ì‚¬ë²ˆ)ëŠ” 10ì ì´ë‚´ë¡œ ì •ìˆ˜ë¡œ ì…ë ¥í•´ì£¼ì‹­ì‹œì˜¤.");
 			txt_id.setText("");
 			result = false;
 		}
@@ -660,76 +663,243 @@ public class Lib_info_system extends JFrame implements ActionListener{
 				typecheck = id.charAt(i);
 				if( typecheck < 48 || typecheck > 58)
 				{
-					//ÇØ´ç char°ªÀÌ ¼ıÀÚ°¡ ¾Æ´Ò °æ¿ì
-					System.out.println("ID(ÇĞ¹ø È¤Àº »ç¹ø)´Â ¼ıÀÚ·Î ÀÔ·ÂÇØÁÖ½Ê½Ã¿À.");
+					//í•´ë‹¹ charê°’ì´ ìˆ«ìê°€ ì•„ë‹ ê²½ìš°
+					System.out.println("ID(í•™ë²ˆ í˜¹ì€ ì‚¬ë²ˆ)ëŠ” ìˆ«ìë¡œ ì…ë ¥í•´ì£¼ì‹­ì‹œì˜¤.");
 					txt_id.setText("");
 					result = false;
 					break;
 				}
 				
-			}		
-			
+			}
+			String sql = "select id from user where id ='"+id+"' ;";
+			try
+			{
+				prestate = conn.prepareStatement(sql);
+				rs = prestate.executeQuery();
+				if(rs.next())
+				{
+					if(rs.getString("id").equals(id))
+					{
+						System.out.println("ì´ë¯¸ ë“±ë¡ëœ IDì…ë‹ˆë‹¤.");
+						//JOptionPane.showMessageDialog(getParent(), "ì´ë¯¸ ë“±ë¡ëœ IDì…ë‹ˆë‹¤.");
+						txt_id.setText("");
+						result = false;	
+					}			
+				}
+			}
+			catch (SQLException e)
+			{
+				e.printStackTrace();
+			}
 		}
 		
-		if(pw == null || pw.length() == 0)
+		if(pw.isEmpty())
 		{
-			System.out.println("PW¸¦ ÀÔ·ÂÇØÁÖ½Ê½Ã¿À.");
-			//JOptionPane.showMessageDialog(getParent(), "PW¸¦ ÀÔ·ÂÇØÁÖ½Ê½Ã¿À.");
+			System.out.println("PWë¥¼ ì…ë ¥í•´ì£¼ì‹­ì‹œì˜¤.");
+			//JOptionPane.showMessageDialog(getParent(), "PWë¥¼ ì…ë ¥í•´ì£¼ì‹­ì‹œì˜¤.");
 			result = false;
 		}
 		else if(pw.length() > 15)
 		{
-			System.out.println("PW´Â 15ÀÚ ÀÌ³»·Î ÀÔ·ÂÇØÁÖ½Ê½Ã¿À.");
-			//JOptionPane.showMessageDialog(getParent(), "PW´Â 15ÀÚ ÀÌ³»·Î ÀÔ·ÂÇØÁÖ½Ê½Ã¿À.");
+			System.out.println("PWëŠ” 15ì ì´ë‚´ë¡œ ì…ë ¥í•´ì£¼ì‹­ì‹œì˜¤.");
+			//JOptionPane.showMessageDialog(getParent(), "PWëŠ” 15ì ì´ë‚´ë¡œ ì…ë ¥í•´ì£¼ì‹­ì‹œì˜¤.");
 			txt_pw.setText("");
 			result = false;
 		}
 		
-		if(name == null || name.length() == 0)
+		if(name.isEmpty())
 		{
-			System.out.println("ÀÌ¸§À» ÀÔ·ÂÇØÁÖ½Ê½Ã¿À.");
-			//JOptionPane.showMessageDialog(getParent(), "ÀÌ¸§À» ÀÔ·ÂÇØÁÖ½Ê½Ã¿À.");
+			System.out.println("ì´ë¦„ì„ ì…ë ¥í•´ì£¼ì‹­ì‹œì˜¤.");
+			//JOptionPane.showMessageDialog(getParent(), "ì´ë¦„ì„ ì…ë ¥í•´ì£¼ì‹­ì‹œì˜¤.");
 			result = false;
 		}
 		else if(name.length() > 30)
 		{
-			System.out.println("ÀÌ¸§Àº 30ÀÚ ÀÌ³»·Î ÀÔ·ÂÇØÁÖ½Ê½Ã¿À.");
-			//JOptionPane.showMessageDialog(getParent(), "ÀÌ¸§Àº 30ÀÚ ÀÌ³»·Î ÀÔ·ÂÇØÁÖ½Ê½Ã¿À.");
+			System.out.println("ì´ë¦„ì€ 30ì ì´ë‚´ë¡œ ì…ë ¥í•´ì£¼ì‹­ì‹œì˜¤.");
+			//JOptionPane.showMessageDialog(getParent(), "ì´ë¦„ì€ 30ì ì´ë‚´ë¡œ ì…ë ¥í•´ì£¼ì‹­ì‹œì˜¤.");
 			txt_name.setText("");
 			result = false;
 		}
 			
-		if(position.equals("ÇĞ»ı"))
+		if(position.equals("í•™ìƒ"))
 		{
-			if(dept == null || dept.length() == 0)
+			if(dept.isEmpty())
 			{
-				System.out.println("Àü°øÀ» ÀÔ·ÂÇØÁÖ½Ê½Ã¿À.");
-				//JOptionPane.showMessageDialog(getParent(), "Àü°øÀ» ÀÔ·ÂÇØÁÖ½Ê½Ã¿À.");
+				System.out.println("ì „ê³µì„ ì…ë ¥í•´ì£¼ì‹­ì‹œì˜¤.");
+				//JOptionPane.showMessageDialog(getParent(), "ì „ê³µì„ ì…ë ¥í•´ì£¼ì‹­ì‹œì˜¤.");
 				result = false;
 			}
 			else if(dept.length()>30)
 			{
-				System.out.println("Àü°øÀº 30ÀÚ ÀÌ³»·Î ÀÔ·ÂÇØÁÖ½Ê½Ã¿À.");
-				//JOptionPane.showMessageDialog(getParent(), "Àü°øÀº 30ÀÚ ÀÌ³»·Î ÀÔ·ÂÇØÁÖ½Ê½Ã¿À.");
+				System.out.println("ì „ê³µì€ 30ì ì´ë‚´ë¡œ ì…ë ¥í•´ì£¼ì‹­ì‹œì˜¤.");
+				//JOptionPane.showMessageDialog(getParent(), "ì „ê³µì€ 30ì ì´ë‚´ë¡œ ì…ë ¥í•´ì£¼ì‹­ì‹œì˜¤.");
 				txt_dept.setText("");
 				result = false;
 			}
 		}
-		//error_checker = false;
 		
 		return result;
 	}
 	//not realization
-	private void is_null() {
+	private boolean check_book_info(String title, String authors, String publisher, String isbn, String availability, String renting_student) {
 		// TODO Auto-generated method stub	
+		
+		boolean result = true;
+		
+		if(title.isEmpty())
+		{
+			System.out.println("ì œëª©ì„ ì…ë ¥í•´ì£¼ì‹­ì‹œì˜¤.");
+			//JOptionPane.showMessageDialog(getParent(), "ì œëª©ì„ ì…ë ¥í•´ì£¼ì‹­ì‹œì˜¤.");
+			result = false;
+		}
+		else if(title.length() > 50)
+		{
+			System.out.println("ì œëª©ì€ 50ì ì´ë‚´ë¡œ ì…ë ¥í•´ì£¼ì‹­ì‹œì˜¤.");
+			//JOptionPane.showMessageDialog(getParent(), "ì œëª©ì€ 50ì ì´ë‚´ë¡œ ì…ë ¥í•´ì£¼ì‹­ì‹œì˜¤.");
+			txt_title.setText("");
+			result = false;
+		}
+		
+		if(authors.isEmpty())
+		{
+			System.out.println("ì €ìë¥¼ ì…ë ¥í•´ì£¼ì‹­ì‹œì˜¤.");
+			//JOptionPane.showMessageDialog(getParent(), "ì €ìë¥¼ ì…ë ¥í•´ì£¼ì‹­ì‹œì˜¤.");
+			result = false;
+		}
+		else if(authors.length() > 50)
+		{
+			System.out.println("ì €ìëŠ” 50ì ì´ë‚´ë¡œ ì…ë ¥í•´ì£¼ì‹­ì‹œì˜¤.");
+			//JOptionPane.showMessageDialog(getParent(), "ì €ìëŠ” 50ì ì´ë‚´ë¡œ ì…ë ¥í•´ì£¼ì‹­ì‹œì˜¤.");
+			txt_authors.setText("");
+			result = false;
+		}
+		
+		if(publisher.isEmpty())
+		{
+			System.out.println("ì¶œíŒì‚¬ë¥¼ ì…ë ¥í•´ì£¼ì‹­ì‹œì˜¤.");
+			//JOptionPane.showMessageDialog(getParent(), "ì €ìë¥¼ ì…ë ¥í•´ì£¼ì‹­ì‹œì˜¤.");
+			result = false;
+		}
+		else if(publisher.length() > 20)
+		{
+			System.out.println("ì¶œíŒì‚¬ëŠ” 20ì ì´ë‚´ë¡œ ì…ë ¥í•´ì£¼ì‹­ì‹œì˜¤.");
+			//JOptionPane.showMessageDialog(getParent(), "ì¶œíŒì‚¬ëŠ” 20ì ì´ë‚´ë¡œ ì…ë ¥í•´ì£¼ì‹­ì‹œì˜¤.");
+			txt_publisher.setText("");
+			result = false;
+		}
+		
+		if(isbn.isEmpty())
+		{
+			System.out.println("ISBNì„ ì…ë ¥í•´ì£¼ì‹­ì‹œì˜¤.");
+			//JOptionPane.showMessageDialog(getParent(), "ISBNì„ ì…ë ¥í•´ì£¼ì‹­ì‹œì˜¤.");
+			result = false;
+		}
+		else if(isbn.length() > 30)
+		{
+			System.out.println("ISBNì€ 30ì ì´ë‚´ë¡œ ì…ë ¥í•´ì£¼ì‹­ì‹œì˜¤.");
+			//JOptionPane.showMessageDialog(getParent(), "ISBNì€ 30ì ì´ë‚´ë¡œ ì…ë ¥í•´ì£¼ì‹­ì‹œì˜¤.");
+			txt_isbn.setText("");
+			result = false;
+		}
+		
+		if(availability.equals("ëŒ€ì—¬ê°€ëŠ¥"))
+		{
+			if(!renting_student.isEmpty())
+			{
+				System.out.println("ë¹Œë ¤ê°„ í•™ìƒì˜ í•™ë²ˆì„ ì…ë ¥í•  ìˆ˜ ì—†ìŠµë‹ˆë‹¤.");
+				//JOptionPane.showMessageDialog(getParent(), "ë¹Œë ¤ê°„ í•™ìƒì˜ í•™ë²ˆì„ ì…ë ¥í•  ìˆ˜ ì—†ìŠµë‹ˆë‹¤.");
+				txt_renting_student.setText("");
+				result = false;
+			}
+		}
+		else if(availability.equals("ëŒ€ì—¬ë¶ˆê°€"))
+		{
+			if(renting_student.isEmpty())
+			{
+				System.out.println("ë¹Œë ¤ê°„ í•™ìƒì˜ í•™ë²ˆì„ ì…ë ¥í•´ì£¼ì‹­ì‹œì˜¤.");
+				//JOptionPane.showMessageDialog(getParent(), "ë¹Œë ¤ê°„ í•™ìƒì˜ í•™ë²ˆì„ ì…ë ¥í•´ì£¼ì‹­ì‹œì˜¤.");
+				result = false;
+			}
+			else if(renting_student.length()>10)
+			{
+				System.out.println("ë¹Œë ¤ê°„ í•™ìƒì˜ í•™ë²ˆì€ 10ì ì´ë‚´ë¡œ ì…ë ¥í•´ì£¼ì‹­ì‹œì˜¤.");
+				//JOptionPane.showMessageDialog(getParent(), "ë¹Œë ¤ê°„ í•™ìƒì˜ í•™ë²ˆì€ 10ì ì´ë‚´ë¡œ ì •ìˆ˜ë¡œ ì…ë ¥í•´ì£¼ì‹­ì‹œì˜¤.");
+				txt_renting_student.setText("");
+				result = false;
+			}
+			else
+			{
+				char typecheck;
+				for (int i = 0; i < renting_student.length(); i++)
+				{
+					typecheck = renting_student.charAt(i);
+					if( typecheck < 48 || typecheck > 58)
+					{
+						//í•´ë‹¹ charê°’ì´ ìˆ«ìê°€ ì•„ë‹ ê²½ìš°
+						System.out.println("ë¹Œë ¤ê°„ í•™ìƒì˜ í•™ë²ˆì€ ìˆ«ìë¡œ ì…ë ¥í•´ì£¼ì‹­ì‹œì˜¤.");
+						txt_renting_student.setText("");
+						result = false;
+						break;
+					}
+					
+				}			
+			}
+		}
+		else
+		{
+			System.out.println("ëŒ€ì—¬ê°€ëŠ¥ì—¬ë¶€ë¥¼ ì„ íƒí•´ì£¼ì‹­ì‹œì˜¤.");
+			//JOptionPane.showMessageDialog(getParent(), "ëŒ€ì—¬ê°€ëŠ¥ì—¬ë¶€ë¥¼ ì„ íƒí•´ì£¼ì‹­ì‹œì˜¤.");
+			result = false;
+		}
+		return result;
 	}
-	//not realization
-	private void insert() {
+	//
+	private void insert(String title, String authors, String publisher,
+			String isbn, String availability) {
 		// TODO Auto-generated method stub
+		String sql= "insert into book (title, author, publisher, isbn, availability) "
+				+ "values(?,?,?,?,?);";
+		try
+		{
+			prestate = conn.prepareStatement(sql);
+			prestate.setString(1, title);
+			prestate.setString(2, authors);
+			prestate.setString(3, publisher);
+			prestate.setString(4, isbn);
+			prestate.setString(5, availability);
+			prestate.executeUpdate();
+				
+			System.out.println("ì±… ë“±ë¡ ì„±ê³µ");
+			//JOptionPane.showMessageDialog(getParent(), "ì±… ë“±ë¡ ì„±ê³µ");	
+		} 
+		catch (SQLException e) 
+		{
+			e.printStackTrace();
+		}
 	}
 	//not realization
-	private void duplicate_cosmetic() {
-		// TODO Auto-generated method stub		
+	private void insert(String title, String authors, String publisher, String isbn, String availability, String renting_student) {
+		// TODO Auto-generated method stub
+		String sql= "insert into book (title, author, publisher, isbn, availability, rental_id) "
+				+ "values(?,?,?,?,?,?);";
+		try
+		{
+			prestate = conn.prepareStatement(sql);
+			prestate.setString(1, title);
+			prestate.setString(2, authors);
+			prestate.setString(3, publisher);
+			prestate.setString(4, isbn);
+			prestate.setString(5, availability);
+			prestate.setString(6, renting_student);
+			prestate.executeUpdate();
+				
+			System.out.println("ì±… ë“±ë¡ ì„±ê³µ");
+			//JOptionPane.showMessageDialog(getParent(), "ì±… ë“±ë¡ ì„±ê³µ");	
+		} 
+		catch (SQLException e) 
+		{
+			e.printStackTrace();
+		}
 	}
 	//not realization
 	private void update() {
@@ -742,6 +912,11 @@ public class Lib_info_system extends JFrame implements ActionListener{
 	//not realization
 	public void Listing_all_book() {
 		// TODO Auto-generated method stub
+	}
+	//not realization
+	private boolean View_my_rentallist(String id) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 	//not realization
 	private void search() {
@@ -772,9 +947,9 @@ public class Lib_info_system extends JFrame implements ActionListener{
 		// TODO Auto-generated method stub
 		
 		if(availability_yes.isSelected())
-			select_availability = "´ë¿©°¡´É";	
+			select_availability = "ëŒ€ì—¬ê°€ëŠ¥";	
 		else if(availability_no.isSelected())
-			select_availability = "´ë¿©ºÒ°¡";		
+			select_availability = "ëŒ€ì—¬ë¶ˆê°€";
 		
 		Object button = e.getSource();
 		//
@@ -783,12 +958,12 @@ public class Lib_info_system extends JFrame implements ActionListener{
 			String id = txt_id.getText();
 			String pw = txt_pw.getText();
 			String get_position;
-			// DB¿¬°á
+			// DBì—°ê²°
 			connect();
 			if(login(id, pw))
 			{
 				get_position = get_position(id, pw);
-				if(get_position.equals("»ç¼­"))
+				if(get_position.equals("ì‚¬ì„œ"))
 					able_by_librarian_login();
 				else
 					able_by_student_login();
@@ -797,8 +972,8 @@ public class Lib_info_system extends JFrame implements ActionListener{
 			}
 			else
 			{
-				System.out.println("ÀÏÄ¡ÇÏ´Â Á¤º¸°¡ ¾ø½À´Ï´Ù.");
-				//JOptionPane.showMessageDialog(getParent(), "ÀÏÄ¡ÇÏ´Â Á¤º¸°¡ ¾ø½À´Ï´Ù.");
+				System.out.println("ì¼ì¹˜í•˜ëŠ” ì •ë³´ê°€ ì—†ìŠµë‹ˆë‹¤.");
+				//JOptionPane.showMessageDialog(getParent(), "ì¼ì¹˜í•˜ëŠ” ì •ë³´ê°€ ì—†ìŠµë‹ˆë‹¤.");
 			}	
 			
 		}
@@ -820,14 +995,14 @@ public class Lib_info_system extends JFrame implements ActionListener{
 		//
 		else if(button == b_librarian)
 		{
-			select_position = "»ç¼­";
+			select_position = "ì‚¬ì„œ";
 			layout_librarian_signup();
 			table.updateUI();
 		}
 		//
 		else if(button == b_student)
 		{
-			select_position = "ÇĞ»ı";
+			select_position = "í•™ìƒ";
 			layout_student_signup();
 			table.updateUI();
 		}
@@ -835,7 +1010,6 @@ public class Lib_info_system extends JFrame implements ActionListener{
 		else if(button == b_register)
 		{
 			connect();
-			
 			String id = txt_id.getText();
 			String pw = txt_pw.getText();
 			String name = txt_name.getText();
@@ -843,7 +1017,7 @@ public class Lib_info_system extends JFrame implements ActionListener{
 			
 			if(check_user_info(id, pw, name, dept, select_position))
 			{
-				if(select_position.equals("»ç¼­"))
+				if(select_position.equals("ì‚¬ì„œ"))
 					user_insert(id, pw, name, select_position);
 				else
 					user_insert(id, pw, name, dept, select_position);
@@ -863,11 +1037,25 @@ public class Lib_info_system extends JFrame implements ActionListener{
 		//not realization
 		else if(button == b_insert)
 		{
-			insert();
-			able_by_librarian_login();
-			Listing_all_book();
-			lib_clear();
-			table.updateUI();
+			
+			String title = txt_title.getText();
+			String authors = txt_authors.getText();
+			String publisher = txt_publisher.getText();
+			String isbn = txt_isbn.getText();
+			String renting_student = txt_renting_student.getText();
+			
+			
+			if(check_book_info(title, authors, publisher, isbn, 
+					select_availability, renting_student))
+			{
+				if(select_availability.equals("ëŒ€ì—¬ê°€ëŠ¥"))
+					insert(title, authors, publisher, isbn, select_availability);
+				else
+					insert(title, authors, publisher, isbn, select_availability, renting_student);
+				Listing_all_book();
+				lib_clear();
+				table.updateUI();
+			}
 		}
 		//not realization
 		else if(button == b_delete)
@@ -890,10 +1078,14 @@ public class Lib_info_system extends JFrame implements ActionListener{
 		//not realization
 		else if(button == b_rent_list)
 		{
-			//Be scheduled to insert method that viewing user's rental list
-			able_by_student_login();
-			lib_clear();
-			table.updateUI();
+			String id = txt_id.getText();
+			if(View_my_rentallist(id))
+			{
+				able_by_student_login();
+				lib_clear();
+				table.updateUI();
+			}
+			
 		}
 		//not realization
 		else if(button == b_search)
@@ -904,7 +1096,6 @@ public class Lib_info_system extends JFrame implements ActionListener{
 		}	
 			
 	}
-	
 	
 	public static void main(String[] args)
 	{

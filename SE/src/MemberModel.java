@@ -9,12 +9,12 @@ public class MemberModel extends AbstractTableModel {
 	Vector list = new Vector(); 
 
 	public MemberModel() {
-		column.add("Title");
-		column.add("Author");
-		column.add("Publisher");
+		column.add("제목");
+		column.add("저자");
+		column.add("출판사");
 		column.add("ISBN");
-		column.add("Rental Availability");
-		column.add("Rental Student");
+		column.add("대여가능여부");
+		column.add("대여한 학생");
 	}
 	
 	
