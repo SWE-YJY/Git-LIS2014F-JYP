@@ -54,6 +54,15 @@ public class Lib_info_system extends JFrame implements ActionListener{
 	private JPanel south, north, center, p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12;
 	private JButton  b_search, b_insert, b_delete, b_update, b_rent_list;
 	
+	private String select_availability, select_position;
+	private String driver = "com.mysql.jdbc.Driver";
+	private String user = "root";
+	private String pass = "kjsryh5223";
+	private String dbURL = "jdbc:mysql://localhost:3307/lib_info_system";	
+	private Connection conn;
+	private PreparedStatement prestate;
+	private ResultSet rs, duplicate_checker;		
+	
 	
 	private MemberModel model = new MemberModel();
 	int selRow; 
@@ -288,11 +297,47 @@ public class Lib_info_system extends JFrame implements ActionListener{
 	//
 	public void connect()
 	{
-		
+		try
+		{
+			Class.forName(driver);
+			conn = DriverManager.getConnection(dbURL, user, pass);
+			
+			if(conn != null)
+				System.out.println("DB 연결 성공");
+			else
+			{
+				System.out.println("DB 연결 실패");
+			}
+		}
+		catch(SQLException se)
+		{
+			System.out.println("sql error");
+		}
+		catch(ClassNotFoundException cne)
+		{
+			System.out.println("jdbc driver not founded");
+		}
 	}
 	//
 	public void closeDB() {
-		
+		if (rs != null)
+			try {
+				rs.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		if (prestate != null)
+			try {
+				prestate.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		if (conn != null)
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 	}
 	//
 	private void layout_default()
@@ -459,6 +504,7 @@ public class Lib_info_system extends JFrame implements ActionListener{
 		b_update.setEnabled(false);
 		b_rent_list.setEnabled(true);
 	}
+	//
 	private void able_by_librarian_login() {
 		// TODO Auto-generated method stub
 		
@@ -486,12 +532,11 @@ public class Lib_info_system extends JFrame implements ActionListener{
 		availability_no.setEnabled(false);
 		
 		b_search.setEnabled(true);
-		b_insert.setEnabled(false);
-		b_delete.setEnabled(false);
-		b_update.setEnabled(false);
-		b_rent_list.setEnabled(true);
+		b_insert.setEnabled(true);
+		b_delete.setEnabled(true);
+		b_update.setEnabled(true);
+		b_rent_list.setEnabled(false);
 	}
-
 	//
 	private void user_clear(){
 		txt_id.setText("");
@@ -516,51 +561,210 @@ public class Lib_info_system extends JFrame implements ActionListener{
 		user_clear();
 		lib_clear();
 		txt_keyword.setText("");
+	}
+	//
+	private boolean login(String id, String pw) {
+		// TODO Auto-generated method stub
 		
+		boolean result = true; 
+		String sql = "select * from user where id ='"+id+"' and pw='"+pw+"';";
+		try
+		{
+			prestate = conn.prepareStatement(sql);
+			rs = prestate.executeQuery();
+			if(rs.next())
+			{
+				String name = (rs.getString("username"));
+				String dept = (rs.getString("dept"));
+				
+				txt_name.setText(name);
+				txt_dept.setText(dept);
+			}
+			else
+			{
+				result = false;
+			}
+		}
+		catch (SQLException e)
+		{
+			e.printStackTrace();
+		}
+		return result;
 	}
 	//
-	private void login() {
+	private void user_insert(String id, String pw, String name,
+			String position) {
 		// TODO Auto-generated method stub
+		String sql= "insert into user (id, pw, username, position) values(?,?,?,?);";
+		try
+		{
+			prestate = conn.prepareStatement(sql);
+			prestate.setString(1, id);
+			prestate.setString(2, pw);
+			prestate.setString(3, name);
+			prestate.setString(4, position);
+			prestate.executeUpdate();
+				
+			System.out.println("사서 등록 성공");
+			//JOptionPane.showMessageDialog(getParent(), "회원등록 성공");	
+		} 
+		catch (SQLException e) 
+		{
+			e.printStackTrace();
+		}
 	}
-	//
-	private void user_insert() {
+	
+	private void user_insert(String id, String pw, String name, String dept, String position) {
 		// TODO Auto-generated method stub
+		String sql= "insert into user values(?,?,?,?,?);";
+		try
+		{
+			prestate = conn.prepareStatement(sql);
+			prestate.setString(1, id);
+			prestate.setString(2, pw);
+			prestate.setString(3, name);
+			prestate.setString(4, dept);
+			prestate.setString(5, position);
+			prestate.executeUpdate();
+				
+			System.out.println("학생 등록 성공");
+			//JOptionPane.showMessageDialog(getParent(), "회원등록 성공");	
+		} 
+		catch (SQLException e) 
+		{
+			e.printStackTrace();
+		}
 	}
 	//
-	private void user_is_null() {
+	private boolean check_user_info(String id, String pw, String name, String dept, String position) {
 		// TODO Auto-generated method stub
+		boolean result = true;
+		if(id == null || id.length() == 0)
+		{
+			System.out.println("ID(학번 혹은 사번)를 입력해주십시오.");
+			//JOptionPane.showMessageDialog(getParent(), "ID(학번 혹은 사번)를 입력해주십시오.");
+			result = false;
+		}
+		else if(id.length()>10 || id.matches("[0-9]"))
+		{
+			System.out.println("ID(학번 혹은 사번)는 10자 이내로 입력해주십시오.");
+			//JOptionPane.showMessageDialog(getParent(), "ID(학번 혹은 사번)는 10자 이내로 정수로 입력해주십시오.");
+			txt_id.setText("");
+			result = false;
+		}
+		else
+		{
+			char typecheck;
+			for (int i = 0; i < id.length(); i++)
+			{
+				typecheck = id.charAt(i);
+				if( typecheck < 48 || typecheck > 58)
+				{
+					//해당 char값이 숫자가 아닐 경우
+					System.out.println("ID(학번 혹은 사번)는 숫자로 입력해주십시오.");
+					txt_id.setText("");
+					result = false;
+					break;
+				}
+				
+			}		
+			
+		}
+		
+		if(pw == null || pw.length() == 0)
+		{
+			System.out.println("PW를 입력해주십시오.");
+			//JOptionPane.showMessageDialog(getParent(), "PW를 입력해주십시오.");
+			result = false;
+		}
+		else if(pw.length() > 15)
+		{
+			System.out.println("PW는 15자 이내로 입력해주십시오.");
+			//JOptionPane.showMessageDialog(getParent(), "PW는 15자 이내로 입력해주십시오.");
+			txt_pw.setText("");
+			result = false;
+		}
+		
+		if(name == null || name.length() == 0)
+		{
+			System.out.println("이름을 입력해주십시오.");
+			//JOptionPane.showMessageDialog(getParent(), "이름을 입력해주십시오.");
+			result = false;
+		}
+		else if(name.length() > 30)
+		{
+			System.out.println("이름은 30자 이내로 입력해주십시오.");
+			//JOptionPane.showMessageDialog(getParent(), "이름은 30자 이내로 입력해주십시오.");
+			txt_name.setText("");
+			result = false;
+		}
+			
+		if(position.equals("학생"))
+		{
+			if(dept == null || dept.length() == 0)
+			{
+				System.out.println("전공을 입력해주십시오.");
+				//JOptionPane.showMessageDialog(getParent(), "전공을 입력해주십시오.");
+				result = false;
+			}
+			else if(dept.length()>30)
+			{
+				System.out.println("전공은 30자 이내로 입력해주십시오.");
+				//JOptionPane.showMessageDialog(getParent(), "전공은 30자 이내로 입력해주십시오.");
+				txt_dept.setText("");
+				result = false;
+			}
+		}
+		//error_checker = false;
+		
+		return result;
 	}
-	//
+	//not realization
 	private void is_null() {
 		// TODO Auto-generated method stub	
 	}
-	//
+	//not realization
 	private void insert() {
 		// TODO Auto-generated method stub
 	}
-	//
+	//not realization
 	private void duplicate_cosmetic() {
 		// TODO Auto-generated method stub		
 	}
-	//
+	//not realization
 	private void update() {
 		// TODO Auto-generated method stub
 	}
-	//
+	//not realization
 	private void delete() {
 		// TODO Auto-generated method stub
 	}
-	//
-	public void searchall() {
+	//not realization
+	public void Listing_all_book() {
 		// TODO Auto-generated method stub
 	}
-	//
+	//not realization
 	private void search() {
 		// TODO Auto-generated method stub
 	}
-	private boolean isUserlibrarian() {
-		// TODO Auto-generated method stub
-		return false;
+	//
+	private String get_position(String id, String pw) {
+		String position = null;
+		String sql = "select position from user where id ='"+id+"' and pw='"+pw+"';";
+		try
+		{
+			prestate = conn.prepareStatement(sql);
+			rs = prestate.executeQuery();
+			if(rs.next())
+			{
+				position = (rs.getString("position"));
+			}
+		}
+		catch (SQLException er)
+		{
+			er.printStackTrace();
+		}
+		return position;
 	}
 	
 	//
@@ -568,25 +772,41 @@ public class Lib_info_system extends JFrame implements ActionListener{
 		// TODO Auto-generated method stub
 		
 		if(availability_yes.isSelected())
-		{}
+			select_availability = "대여가능";	
 		else if(availability_no.isSelected())
-		{}
+			select_availability = "대여불가";		
 		
 		Object button = e.getSource();
 		//
 		if(button == b_login)
 		{
-				// DB연결
-			if(isUserlibrarian(/*인자로 아이디주기*/))
-				able_by_librarian_login();
+			String id = txt_id.getText();
+			String pw = txt_pw.getText();
+			String get_position;
+			// DB연결
+			connect();
+			if(login(id, pw))
+			{
+				get_position = get_position(id, pw);
+				if(get_position.equals("사서"))
+					able_by_librarian_login();
+				else
+					able_by_student_login();
+				Listing_all_book();
+				table.updateUI();
+			}
 			else
-				able_by_student_login();
-			table.updateUI();
+			{
+				System.out.println("일치하는 정보가 없습니다.");
+				//JOptionPane.showMessageDialog(getParent(), "일치하는 정보가 없습니다.");
+			}	
+			
 		}
 		else if(button == b_logout)
 		{
 			all_clear();
 			layout_default();
+			closeDB();
 			model.resetlist();
 			table.updateUI();
 		}
@@ -600,22 +820,38 @@ public class Lib_info_system extends JFrame implements ActionListener{
 		//
 		else if(button == b_librarian)
 		{
+			select_position = "사서";
 			layout_librarian_signup();
 			table.updateUI();
 		}
 		//
 		else if(button == b_student)
 		{
+			select_position = "학생";
 			layout_student_signup();
 			table.updateUI();
 		}
 		//
 		else if(button == b_register)
 		{
-			user_insert();
-			all_clear();
-			layout_default();
-			table.updateUI();
+			connect();
+			
+			String id = txt_id.getText();
+			String pw = txt_pw.getText();
+			String name = txt_name.getText();
+			String dept = txt_dept.getText();
+			
+			if(check_user_info(id, pw, name, dept, select_position))
+			{
+				if(select_position.equals("사서"))
+					user_insert(id, pw, name, select_position);
+				else
+					user_insert(id, pw, name, dept, select_position);
+				
+				all_clear();
+				layout_default();
+				table.updateUI();
+			}
 		}
 		//
 		else if(button == b_cancel)
@@ -624,46 +860,56 @@ public class Lib_info_system extends JFrame implements ActionListener{
 			layout_default();
 			table.updateUI();
 		}
-		//
+		//not realization
 		else if(button == b_insert)
 		{
+			insert();
 			able_by_librarian_login();
+			Listing_all_book();
 			lib_clear();
 			table.updateUI();
 		}
-		//
+		//not realization
 		else if(button == b_delete)
 		{
+			delete();
 			able_by_librarian_login();
+			Listing_all_book();
 			lib_clear();
 			table.updateUI();
 		}
-		//
+		//not realization
 		else if(button == b_update)
 		{
+			update();
 			able_by_librarian_login();
+			Listing_all_book();
 			lib_clear();
 			table.updateUI();
 		}
-		//
+		//not realization
 		else if(button == b_rent_list)
 		{
+			//Be scheduled to insert method that viewing user's rental list
 			able_by_student_login();
 			lib_clear();
 			table.updateUI();
 		}
-		//
+		//not realization
 		else if(button == b_search)
 		{
-			if(isUserlibrarian(/*인자로 아이디주기*/))
+			if(true)
 				able_by_librarian_login();
 			else
 				able_by_student_login();
 			lib_clear();
+			search();
 			table.updateUI();
 		}	
 			
 	}
+	
+	
 	public static void main(String[] args)
 	{
 		new Lib_info_system();
