@@ -60,35 +60,35 @@ public class Lib_info_system extends JFrame implements ActionListener{
 
 	public Lib_info_system()
 	{
-		super("µµ¼­ Á¤º¸ °ü¸® ÇÁ·Î±×·©");
+		super("ë„ì„œ ì •ë³´ ê´€ë¦¬ í”„ë¡œê·¸ë­");
 		
-		// ·¹ÀÌ¾Æ¿ô
+		// ë ˆì´ì•„ì›ƒ
 		l_id = new JLabel("ID");
 		l_pw = new JLabel("PW");
-		l_name = new JLabel("ÀÌ¸§");
-		l_dept = new JLabel("Àü°ø");
+		l_name = new JLabel("ì´ë¦„");
+		l_dept = new JLabel("ì „ê³µ");
 		
 		txt_id = new JTextField(10);
 		txt_pw = new JPasswordField(10);
 		txt_name = new JTextField(10);
 		txt_dept = new JTextField(10);
 		
-		b_login = new JButton("·Î±×ÀÎ");
-		b_logout = new JButton("·Î±×¾Æ¿ô");
-		b_signup = new JButton("È¸¿ø°¡ÀÔ");
-		b_librarian = new JButton("»ç¼­°¡ÀÔ");
-		b_student = new JButton("ÇĞ»ı°¡ÀÔ");
-		b_register = new JButton("È¸¿øµî·Ï");
-		b_cancel = new JButton("°¡ÀÔÃë¼Ò"); 
+		b_login = new JButton("ë¡œê·¸ì¸");
+		b_logout = new JButton("ë¡œê·¸ì•„ì›ƒ");
+		b_signup = new JButton("íšŒì›ê°€ì…");
+		b_librarian = new JButton("ì‚¬ì„œê°€ì…");
+		b_student = new JButton("í•™ìƒê°€ì…");
+		b_register = new JButton("íšŒì›ë“±ë¡");
+		b_cancel = new JButton("ê°€ì…ì·¨ì†Œ"); 
 		
 		l_blank = new JLabel("  ");
-		l_title = new JLabel("µµ ¼­ Á¦ ¸ñ");
-		l_authors = new JLabel("Àú            ÀÚ");
-		l_publisher = new JLabel("Ãâ    ÆÇ    »ç");
+		l_title = new JLabel("ë„ ì„œ ì œ ëª©");
+		l_authors = new JLabel("ì €            ì");
+		l_publisher = new JLabel("ì¶œ    íŒ    ì‚¬");
 		l_isbn = new JLabel("I    S    B    N");
-		l_availability = new JLabel("´ë¿©°¡´É¿©ºÎ");
-		l_renting_student = new JLabel("ºô·Á°£ÇĞ»ı");
-		l_search = new JLabel("µµ¼­°Ë»ö");
+		l_availability = new JLabel("ëŒ€ì—¬ê°€ëŠ¥ì—¬ë¶€");
+		l_renting_student = new JLabel("ë¹Œë ¤ê°„í•™ìƒ");
+		l_search = new JLabel("ë„ì„œê²€ìƒ‰");
 		
 		txt_title = new JTextField(20);
 		txt_authors = new JTextField(20);
@@ -98,16 +98,16 @@ public class Lib_info_system extends JFrame implements ActionListener{
 		txt_keyword = new JTextField(20);
 		
 		availability = new ButtonGroup();
-		availability_yes = new JRadioButton("´ë¿©°¡´É", false);
-		availability_no = new JRadioButton("´ë¿©ºÒ°¡", false);
+		availability_yes = new JRadioButton("ëŒ€ì—¬ê°€ëŠ¥", false);
+		availability_no = new JRadioButton("ëŒ€ì—¬ë¶ˆê°€", false);
 		availability.add(availability_yes);
 		availability.add(availability_no);
 		
-		b_search = new JButton("°Ë»ö");
-		b_insert = new JButton("Ãß°¡");
-		b_delete = new JButton("»èÁ¦");
-		b_update = new JButton("¼öÁ¤");
-		b_rent_list = new JButton("´ë¿©¸ñ·ÏÈ®ÀÎ");
+		b_search = new JButton("ê²€ìƒ‰");
+		b_insert = new JButton("ì¶”ê°€");
+		b_delete = new JButton("ì‚­ì œ");
+		b_update = new JButton("ìˆ˜ì •");
+		b_rent_list = new JButton("ëŒ€ì—¬ëª©ë¡í™•ì¸");
 		
 		table = new JTable(model);
 		scroll = new JScrollPane(table);
@@ -228,17 +228,24 @@ public class Lib_info_system extends JFrame implements ActionListener{
 			public void mouseClicked(MouseEvent e) {
 				selRow = table.getSelectedRow();
 
-				String company = (String) table.getValueAt(selRow, 0);
-				String cosname = (String) table.getValueAt(selRow, 1);
-				String costype = (String) table.getValueAt(selRow, 2);
-				String func = (String) table.getValueAt(selRow, 3);
-				String skintype = (String) table.getValueAt(selRow, 4);
+				String title = (String) table.getValueAt(selRow, 0);
+				String authors = (String) table.getValueAt(selRow, 1);
+				String publisher = (String) table.getValueAt(selRow, 2);
+				String isbn = (String) table.getValueAt(selRow, 3);
+				String renting_student = (String) table.getValueAt(selRow, 4);
 				String availability = (String) table.getValueAt(selRow, 5);
 				
-				txt_title.setText(company);
-				txt_authors.setText(cosname);
-				txt_title.setEditable(false);
-				txt_authors.setEditable(false);
+				txt_title.setText(title);
+				txt_authors.setText(authors);
+				txt_publisher.setText(publisher);
+				txt_isbn.setText(isbn);
+				txt_renting_student.setText(renting_student);
+				
+				txt_title.setEditable(true);
+				txt_authors.setEditable(true);
+				txt_publisher.setEditable(true);
+				txt_isbn.setEditable(true);
+				txt_renting_student.setEditable(true);
 				
 				if(availability==null)
 				{
@@ -247,10 +254,10 @@ public class Lib_info_system extends JFrame implements ActionListener{
 				}
 				else 
 				{
-					 if (availability.equals("´ë¿©°¡´É")){
+					 if (availability.equals("ëŒ€ì—¬ê°€ëŠ¥")){
 						 availability_yes.setSelected(true);
 					 }
-					 else if (availability.equals("´ë¿©ºÒ°¡")) {
+					 else if (availability.equals("ëŒ€ì—¬ë¶ˆê°€")) {
 						 availability_no.setSelected(true);
 					 }
 				}
@@ -372,6 +379,9 @@ public class Lib_info_system extends JFrame implements ActionListener{
 		
 		txt_title.setEditable(false);
 		txt_authors.setEditable(false);
+		txt_publisher.setEditable(false);
+		txt_isbn.setEditable(false);
+		txt_renting_student.setEditable(false);
 		txt_keyword.setEditable(false);
 		
 		availability_yes.setEnabled(false);
@@ -402,6 +412,9 @@ public class Lib_info_system extends JFrame implements ActionListener{
 		
 		txt_title.setEditable(false);
 		txt_authors.setEditable(false);
+		txt_publisher.setEditable(false);
+		txt_isbn.setEditable(false);
+		txt_renting_student.setEditable(false);
 		txt_keyword.setEditable(false);
 		
 		availability_yes.setEnabled(false);
@@ -414,7 +427,7 @@ public class Lib_info_system extends JFrame implements ActionListener{
 		b_rent_list.setEnabled(false);
 	}
 	//
-	private void able_by_login() {
+	private void able_by_student_login() {
 		// TODO Auto-generated method stub
 		
 		txt_id.setEditable(false);
@@ -435,7 +448,6 @@ public class Lib_info_system extends JFrame implements ActionListener{
 		txt_publisher.setEditable(false);
 		txt_isbn.setEditable(false);
 		txt_renting_student.setEditable(false);
-		
 		txt_keyword.setEditable(true);
 		
 		availability_yes.setEnabled(false);
@@ -447,6 +459,39 @@ public class Lib_info_system extends JFrame implements ActionListener{
 		b_update.setEnabled(false);
 		b_rent_list.setEnabled(true);
 	}
+	private void able_by_librarian_login() {
+		// TODO Auto-generated method stub
+		
+		txt_id.setEditable(false);
+		txt_pw.setEditable(false);
+		txt_name.setEditable(false);
+		txt_dept.setEditable(false);
+		
+		b_login.setEnabled(false);
+		b_logout.setEnabled(true);
+		b_signup.setEnabled(false);
+		b_librarian.setEnabled(false);
+		b_student.setEnabled(false);
+		b_register.setEnabled(false);
+		b_cancel.setEnabled(false);
+		
+		txt_title.setEditable(false);
+		txt_authors.setEditable(false);
+		txt_publisher.setEditable(false);
+		txt_isbn.setEditable(false);
+		txt_renting_student.setEditable(false);
+		txt_keyword.setEditable(true);
+		
+		availability_yes.setEnabled(false);
+		availability_no.setEnabled(false);
+		
+		b_search.setEnabled(true);
+		b_insert.setEnabled(false);
+		b_delete.setEnabled(false);
+		b_update.setEnabled(false);
+		b_rent_list.setEnabled(true);
+	}
+
 	//
 	private void user_clear(){
 		txt_id.setText("");
@@ -455,18 +500,23 @@ public class Lib_info_system extends JFrame implements ActionListener{
 		txt_dept.setText("");
 	}
 	//
-	private void cosmetic_clear(){		
+	private void lib_clear(){		
 		txt_title.setText("");
 		txt_authors.setText("");
+		txt_publisher.setText("");
+		txt_isbn.setText("");
+		txt_renting_student.setText("");
 		
-		availability_yes.setSelected(true);
+		availability_yes.setSelected(false);
 		availability_no.setSelected(false);
 		
 	}
 	//
 	private void all_clear(){
 		user_clear();
-		cosmetic_clear();
+		lib_clear();
+		txt_keyword.setText("");
+		
 	}
 	//
 	private void login() {
@@ -508,6 +558,11 @@ public class Lib_info_system extends JFrame implements ActionListener{
 	private void search() {
 		// TODO Auto-generated method stub
 	}
+	private boolean isUserlibrarian() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+	
 	//
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
@@ -521,9 +576,12 @@ public class Lib_info_system extends JFrame implements ActionListener{
 		//
 		if(button == b_login)
 		{
-			// DB¿¬°á
-				able_by_login();
-				table.updateUI();
+				// DBì—°ê²°
+			if(isUserlibrarian(/*ì¸ìë¡œ ì•„ì´ë””ì£¼ê¸°*/))
+				able_by_librarian_login();
+			else
+				able_by_student_login();
+			table.updateUI();
 		}
 		else if(button == b_logout)
 		{
@@ -535,6 +593,7 @@ public class Lib_info_system extends JFrame implements ActionListener{
 		//
 		else if(button == b_signup)
 		{
+			user_clear();
 			layout_select_signtype();
 			table.updateUI();
 		}
@@ -561,53 +620,52 @@ public class Lib_info_system extends JFrame implements ActionListener{
 		//
 		else if(button == b_cancel)
 		{
+			user_clear();
 			layout_default();
 			table.updateUI();
 		}
 		//
 		else if(button == b_insert)
 		{
-			able_by_login();
-			cosmetic_clear();
+			able_by_librarian_login();
+			lib_clear();
 			table.updateUI();
 		}
 		//
 		else if(button == b_delete)
 		{
-			able_by_login();
-			cosmetic_clear();
+			able_by_librarian_login();
+			lib_clear();
 			table.updateUI();
 		}
 		//
 		else if(button == b_update)
 		{
-			able_by_login();
-			cosmetic_clear();
+			able_by_librarian_login();
+			lib_clear();
 			table.updateUI();
 		}
 		//
 		else if(button == b_rent_list)
 		{
-			able_by_login();
-			cosmetic_clear();
+			able_by_student_login();
+			lib_clear();
 			table.updateUI();
 		}
 		//
 		else if(button == b_search)
 		{
-			able_by_login();
-			cosmetic_clear();
+			if(isUserlibrarian(/*ì¸ìë¡œ ì•„ì´ë””ì£¼ê¸°*/))
+				able_by_librarian_login();
+			else
+				able_by_student_login();
+			lib_clear();
 			table.updateUI();
 		}	
 			
 	}
-
-	
-
 	public static void main(String[] args)
 	{
 		new Lib_info_system();
 	}
-
-	
 }
