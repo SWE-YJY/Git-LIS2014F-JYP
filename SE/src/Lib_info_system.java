@@ -898,10 +898,6 @@ public class Lib_info_system extends JFrame implements ActionListener{
 		//not realization
 		else if(button == b_search)
 		{
-			if(true)
-				able_by_librarian_login();
-			else
-				able_by_student_login();
 			lib_clear();
 			search();
 			table.updateUI();
