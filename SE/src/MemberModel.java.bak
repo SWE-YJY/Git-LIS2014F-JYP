@@ -9,7 +9,7 @@ public class MemberModel extends AbstractTableModel {
 	Vector list = new Vector(); 
 
 	public MemberModel() {
-		column.add("Title");
+		column.add("도서 제목");
 		column.add("Author");
 		column.add("Publisher");
 		column.add("ISBN");

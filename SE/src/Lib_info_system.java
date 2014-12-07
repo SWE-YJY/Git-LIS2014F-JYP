@@ -60,35 +60,35 @@ public class Lib_info_system extends JFrame implements ActionListener{
 
 	public Lib_info_system()
 	{
-		super("ë„ì„œ ì •ë³´ ê´€ë¦¬ í”„ë¡œê·¸ë­");
+		super("µµ¼­ Á¤º¸ °ü¸® ÇÁ·Î±×·©");
 		
-		// ë ˆì´ì•„ì›ƒ
+		// ·¹ÀÌ¾Æ¿ô
 		l_id = new JLabel("ID");
 		l_pw = new JLabel("PW");
-		l_name = new JLabel("ì´ë¦„");
-		l_dept = new JLabel("ì „ê³µ");
+		l_name = new JLabel("ÀÌ¸§");
+		l_dept = new JLabel("Àü°ø");
 		
 		txt_id = new JTextField(10);
 		txt_pw = new JPasswordField(10);
 		txt_name = new JTextField(10);
 		txt_dept = new JTextField(10);
 		
-		b_login = new JButton("ë¡œê·¸ì¸");
-		b_logout = new JButton("ë¡œê·¸ì•„ì›ƒ");
-		b_signup = new JButton("íšŒì›ê°€ì…");
-		b_librarian = new JButton("ì‚¬ì„œê°€ì…");
-		b_student = new JButton("í•™ìƒê°€ì…");
-		b_register = new JButton("íšŒì›ë“±ë¡");
-		b_cancel = new JButton("ê°€ì…ì·¨ì†Œ"); 
+		b_login = new JButton("·Î±×ÀÎ");
+		b_logout = new JButton("·Î±×¾Æ¿ô");
+		b_signup = new JButton("È¸¿ø°¡ÀÔ");
+		b_librarian = new JButton("»ç¼­°¡ÀÔ");
+		b_student = new JButton("ÇĞ»ı°¡ÀÔ");
+		b_register = new JButton("È¸¿øµî·Ï");
+		b_cancel = new JButton("°¡ÀÔÃë¼Ò"); 
 		
 		l_blank = new JLabel("  ");
-		l_title = new JLabel("ë„ ì„œ ì œ ëª©");
-		l_authors = new JLabel("ì €            ì");
-		l_publisher = new JLabel("ì¶œ    íŒ    ì‚¬");
+		l_title = new JLabel("µµ ¼­ Á¦ ¸ñ");
+		l_authors = new JLabel("Àú            ÀÚ");
+		l_publisher = new JLabel("Ãâ    ÆÇ    »ç");
 		l_isbn = new JLabel("I    S    B    N");
-		l_availability = new JLabel("ëŒ€ì—¬ê°€ëŠ¥ì—¬ë¶€");
-		l_renting_student = new JLabel("ë¹Œë ¤ê°„í•™ìƒ");
-		l_search = new JLabel("ë„ì„œê²€ìƒ‰");
+		l_availability = new JLabel("´ë¿©°¡´É¿©ºÎ");
+		l_renting_student = new JLabel("ºô·Á°£ÇĞ»ı");
+		l_search = new JLabel("µµ¼­°Ë»ö");
 		
 		txt_title = new JTextField(20);
 		txt_authors = new JTextField(20);
@@ -98,16 +98,16 @@ public class Lib_info_system extends JFrame implements ActionListener{
 		txt_keyword = new JTextField(20);
 		
 		availability = new ButtonGroup();
-		availability_yes = new JRadioButton("ëŒ€ì—¬ê°€ëŠ¥", false);
-		availability_no = new JRadioButton("ëŒ€ì—¬ë¶ˆê°€", false);
+		availability_yes = new JRadioButton("´ë¿©°¡´É", false);
+		availability_no = new JRadioButton("´ë¿©ºÒ°¡", false);
 		availability.add(availability_yes);
 		availability.add(availability_no);
 		
-		b_search = new JButton("ê²€ìƒ‰");
-		b_insert = new JButton("ì¶”ê°€");
-		b_delete = new JButton("ì‚­ì œ");
-		b_update = new JButton("ìˆ˜ì •");
-		b_rent_list = new JButton("ëŒ€ì—¬ëª©ë¡í™•ì¸");
+		b_search = new JButton("°Ë»ö");
+		b_insert = new JButton("Ãß°¡");
+		b_delete = new JButton("»èÁ¦");
+		b_update = new JButton("¼öÁ¤");
+		b_rent_list = new JButton("´ë¿©¸ñ·ÏÈ®ÀÎ");
 		
 		table = new JTable(model);
 		scroll = new JScrollPane(table);
@@ -254,10 +254,10 @@ public class Lib_info_system extends JFrame implements ActionListener{
 				}
 				else 
 				{
-					 if (availability.equals("ëŒ€ì—¬ê°€ëŠ¥")){
+					 if (availability.equals("´ë¿©°¡´É")){
 						 availability_yes.setSelected(true);
 					 }
-					 else if (availability.equals("ëŒ€ì—¬ë¶ˆê°€")) {
+					 else if (availability.equals("´ë¿©ºÒ°¡")) {
 						 availability_no.setSelected(true);
 					 }
 				}
@@ -576,8 +576,8 @@ public class Lib_info_system extends JFrame implements ActionListener{
 		//
 		if(button == b_login)
 		{
-				// DBì—°ê²°
-			if(isUserlibrarian(/*ì¸ìë¡œ ì•„ì´ë””ì£¼ê¸°*/))
+				// DB¿¬°á
+			if(isUserlibrarian(/*ÀÎÀÚ·Î ¾ÆÀÌµğÁÖ±â*/))
 				able_by_librarian_login();
 			else
 				able_by_student_login();
@@ -655,7 +655,7 @@ public class Lib_info_system extends JFrame implements ActionListener{
 		//
 		else if(button == b_search)
 		{
-			if(isUserlibrarian(/*ì¸ìë¡œ ì•„ì´ë””ì£¼ê¸°*/))
+			if(isUserlibrarian(/*ÀÎÀÚ·Î ¾ÆÀÌµğÁÖ±â*/))
 				able_by_librarian_login();
 			else
 				able_by_student_login();
