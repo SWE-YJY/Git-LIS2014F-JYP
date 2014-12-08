@@ -57,7 +57,7 @@ public class Lib_info_system extends JFrame implements ActionListener{
 	private String select_availability, select_position;
 	private String driver = "com.mysql.jdbc.Driver";
 	private String user = "root";
-	private String pass = "kjsryh5223";
+	private String pass = "apmsetup";
 	private String dbURL = "jdbc:mysql://localhost:3307/lib_info_system";	
 	private Connection conn;
 	private PreparedStatement prestate;
@@ -69,35 +69,35 @@ public class Lib_info_system extends JFrame implements ActionListener{
 
 	public Lib_info_system()
 	{
-		super("ë„ì„œ ì •ë³´ ê´€ë¦¬ í”„ë¡œê·¸ë­");
+		super("µµ¼­ Á¤º¸ °ü¸® ÇÁ·Î±×·©");
 		
-		// ë ˆì´ì•„ì›ƒ
+		// ·¹ÀÌ¾Æ¿ô
 		l_id = new JLabel("ID");
 		l_pw = new JLabel("PW");
-		l_name = new JLabel("ì´ë¦„");
-		l_dept = new JLabel("ì „ê³µ");
+		l_name = new JLabel("ÀÌ¸§");
+		l_dept = new JLabel("Àü°ø");
 		
 		txt_id = new JTextField(10);
 		txt_pw = new JPasswordField(10);
 		txt_name = new JTextField(10);
 		txt_dept = new JTextField(10);
 		
-		b_login = new JButton("ë¡œê·¸ì¸");
-		b_logout = new JButton("ë¡œê·¸ì•„ì›ƒ");
-		b_signup = new JButton("íšŒì›ê°€ì…");
-		b_librarian = new JButton("ì‚¬ì„œê°€ì…");
-		b_student = new JButton("í•™ìƒê°€ì…");
-		b_register = new JButton("íšŒì›ë“±ë¡");
-		b_cancel = new JButton("ê°€ì…ì·¨ì†Œ"); 
+		b_login = new JButton("·Î±×ÀÎ");
+		b_logout = new JButton("·Î±×¾Æ¿ô");
+		b_signup = new JButton("È¸¿ø°¡ÀÔ");
+		b_librarian = new JButton("»ç¼­°¡ÀÔ");
+		b_student = new JButton("ÇĞ»ı°¡ÀÔ");
+		b_register = new JButton("È¸¿øµî·Ï");
+		b_cancel = new JButton("°¡ÀÔÃë¼Ò"); 
 		
 		l_blank = new JLabel("  ");
-		l_title = new JLabel("ë„ ì„œ ì œ ëª©");
-		l_authors = new JLabel("ì €            ì");
-		l_publisher = new JLabel("ì¶œ    íŒ    ì‚¬");
+		l_title = new JLabel("µµ ¼­ Á¦ ¸ñ");
+		l_authors = new JLabel("Àú            ÀÚ");
+		l_publisher = new JLabel("Ãâ    ÆÇ    »ç");
 		l_isbn = new JLabel("I    S    B    N");
-		l_availability = new JLabel("ëŒ€ì—¬ê°€ëŠ¥ì—¬ë¶€");
-		l_renting_student = new JLabel("ë¹Œë ¤ê°„í•™ìƒ");
-		l_search = new JLabel("ë„ì„œê²€ìƒ‰");
+		l_availability = new JLabel("´ë¿©°¡´É¿©ºÎ");
+		l_renting_student = new JLabel("ºô·Á°£ÇĞ»ı");
+		l_search = new JLabel("µµ¼­°Ë»ö");
 		
 		txt_title = new JTextField(20);
 		txt_authors = new JTextField(20);
@@ -107,16 +107,16 @@ public class Lib_info_system extends JFrame implements ActionListener{
 		txt_keyword = new JTextField(20);
 		
 		group_availability = new ButtonGroup();
-		availability_yes = new JRadioButton("ëŒ€ì—¬ê°€ëŠ¥", false);
-		availability_no = new JRadioButton("ëŒ€ì—¬ë¶ˆê°€", false);
+		availability_yes = new JRadioButton("´ë¿©°¡´É", false);
+		availability_no = new JRadioButton("´ë¿©ºÒ°¡", false);
 		group_availability.add(availability_yes);
 		group_availability.add(availability_no);
 		
-		b_search = new JButton("ê²€ìƒ‰");
-		b_insert = new JButton("ì¶”ê°€");
-		b_delete = new JButton("ì‚­ì œ");
-		b_update = new JButton("ìˆ˜ì •");
-		b_rent_list = new JButton("ëŒ€ì—¬ëª©ë¡í™•ì¸");
+		b_search = new JButton("°Ë»ö");
+		b_insert = new JButton("Ãß°¡");
+		b_delete = new JButton("»èÁ¦");
+		b_update = new JButton("¼öÁ¤");
+		b_rent_list = new JButton("´ë¿©¸ñ·ÏÈ®ÀÎ");
 		
 		table = new JTable(model);
 		scroll = new JScrollPane(table);
@@ -263,10 +263,10 @@ public class Lib_info_system extends JFrame implements ActionListener{
 				}
 				else 
 				{
-					 if (att_availability.equals("ëŒ€ì—¬ê°€ëŠ¥")){
+					 if (att_availability.equals("´ë¿©°¡´É")){
 						 availability_yes.setSelected(true);
 					 }
-					 else if (att_availability.equals("ëŒ€ì—¬ë¶ˆê°€")) {
+					 else if (att_availability.equals("´ë¿©ºÒ°¡")) {
 						 availability_no.setSelected(true);
 					 }
 				}
@@ -303,10 +303,10 @@ public class Lib_info_system extends JFrame implements ActionListener{
 			conn = DriverManager.getConnection(dbURL, user, pass);
 			
 			if(conn != null)
-				System.out.println("DB ì—°ê²° ì„±ê³µ");
+				System.out.println("DB ¿¬°á ¼º°ø");
 			else
 			{
-				System.out.println("DB ì—°ê²° ì‹¤íŒ¨");
+				System.out.println("DB ¿¬°á ½ÇÆĞ");
 			}
 		}
 		catch(SQLException se)
@@ -606,8 +606,8 @@ public class Lib_info_system extends JFrame implements ActionListener{
 			prestate.setString(4, position);
 			prestate.executeUpdate();
 				
-			System.out.println("ì‚¬ì„œ ë“±ë¡ ì„±ê³µ");
-			//JOptionPane.showMessageDialog(getParent(), "íšŒì›ë“±ë¡ ì„±ê³µ");	
+			System.out.println("»ç¼­ µî·Ï ¼º°ø");
+			//JOptionPane.showMessageDialog(getParent(), "È¸¿øµî·Ï ¼º°ø");	
 		} 
 		catch (SQLException e) 
 		{
@@ -628,8 +628,8 @@ public class Lib_info_system extends JFrame implements ActionListener{
 			prestate.setString(5, position);
 			prestate.executeUpdate();
 				
-			System.out.println("í•™ìƒ ë“±ë¡ ì„±ê³µ");
-			//JOptionPane.showMessageDialog(getParent(), "íšŒì›ë“±ë¡ ì„±ê³µ");	
+			System.out.println("ÇĞ»ı µî·Ï ¼º°ø");
+			//JOptionPane.showMessageDialog(getParent(), "È¸¿øµî·Ï ¼º°ø");	
 		} 
 		catch (SQLException e) 
 		{
@@ -644,14 +644,14 @@ public class Lib_info_system extends JFrame implements ActionListener{
 				
 		if(id.isEmpty())
 		{
-			System.out.println("ID(í•™ë²ˆ í˜¹ì€ ì‚¬ë²ˆ)ë¥¼ ì…ë ¥í•´ì£¼ì‹­ì‹œì˜¤.");
-			//JOptionPane.showMessageDialog(getParent(), "ID(í•™ë²ˆ í˜¹ì€ ì‚¬ë²ˆ)ë¥¼ ì…ë ¥í•´ì£¼ì‹­ì‹œì˜¤.");
+			System.out.println("ID(ÇĞ¹ø È¤Àº »ç¹ø)¸¦ ÀÔ·ÂÇØÁÖ½Ê½Ã¿À.");
+			//JOptionPane.showMessageDialog(getParent(), "ID(ÇĞ¹ø È¤Àº »ç¹ø)¸¦ ÀÔ·ÂÇØÁÖ½Ê½Ã¿À.");
 			result = false;
 		}
 		else if(id.length()>10)
 		{
-			System.out.println("ID(í•™ë²ˆ í˜¹ì€ ì‚¬ë²ˆ)ëŠ” 10ì ì´ë‚´ë¡œ ì…ë ¥í•´ì£¼ì‹­ì‹œì˜¤.");
-			//JOptionPane.showMessageDialog(getParent(), "ID(í•™ë²ˆ í˜¹ì€ ì‚¬ë²ˆ)ëŠ” 10ì ì´ë‚´ë¡œ ì •ìˆ˜ë¡œ ì…ë ¥í•´ì£¼ì‹­ì‹œì˜¤.");
+			System.out.println("ID(ÇĞ¹ø È¤Àº »ç¹ø)´Â 10ÀÚ ÀÌ³»·Î ÀÔ·ÂÇØÁÖ½Ê½Ã¿À.");
+			//JOptionPane.showMessageDialog(getParent(), "ID(ÇĞ¹ø È¤Àº »ç¹ø)´Â 10ÀÚ ÀÌ³»·Î Á¤¼ö·Î ÀÔ·ÂÇØÁÖ½Ê½Ã¿À.");
 			txt_id.setText("");
 			result = false;
 		}
@@ -663,8 +663,8 @@ public class Lib_info_system extends JFrame implements ActionListener{
 				typecheck = id.charAt(i);
 				if( typecheck < 48 || typecheck > 58)
 				{
-					//í•´ë‹¹ charê°’ì´ ìˆ«ìê°€ ì•„ë‹ ê²½ìš°
-					System.out.println("ID(í•™ë²ˆ í˜¹ì€ ì‚¬ë²ˆ)ëŠ” ìˆ«ìë¡œ ì…ë ¥í•´ì£¼ì‹­ì‹œì˜¤.");
+					//ÇØ´ç char°ªÀÌ ¼ıÀÚ°¡ ¾Æ´Ò °æ¿ì
+					System.out.println("ID(ÇĞ¹ø È¤Àº »ç¹ø)´Â ¼ıÀÚ·Î ÀÔ·ÂÇØÁÖ½Ê½Ã¿À.");
 					txt_id.setText("");
 					result = false;
 					break;
@@ -680,8 +680,8 @@ public class Lib_info_system extends JFrame implements ActionListener{
 				{
 					if(rs.getString("id").equals(id))
 					{
-						System.out.println("ì´ë¯¸ ë“±ë¡ëœ IDì…ë‹ˆë‹¤.");
-						//JOptionPane.showMessageDialog(getParent(), "ì´ë¯¸ ë“±ë¡ëœ IDì…ë‹ˆë‹¤.");
+						System.out.println("ÀÌ¹Ì µî·ÏµÈ IDÀÔ´Ï´Ù.");
+						//JOptionPane.showMessageDialog(getParent(), "ÀÌ¹Ì µî·ÏµÈ IDÀÔ´Ï´Ù.");
 						txt_id.setText("");
 						result = false;	
 					}			
@@ -695,44 +695,44 @@ public class Lib_info_system extends JFrame implements ActionListener{
 		
 		if(pw.isEmpty())
 		{
-			System.out.println("PWë¥¼ ì…ë ¥í•´ì£¼ì‹­ì‹œì˜¤.");
-			//JOptionPane.showMessageDialog(getParent(), "PWë¥¼ ì…ë ¥í•´ì£¼ì‹­ì‹œì˜¤.");
+			System.out.println("PW¸¦ ÀÔ·ÂÇØÁÖ½Ê½Ã¿À.");
+			//JOptionPane.showMessageDialog(getParent(), "PW¸¦ ÀÔ·ÂÇØÁÖ½Ê½Ã¿À.");
 			result = false;
 		}
 		else if(pw.length() > 15)
 		{
-			System.out.println("PWëŠ” 15ì ì´ë‚´ë¡œ ì…ë ¥í•´ì£¼ì‹­ì‹œì˜¤.");
-			//JOptionPane.showMessageDialog(getParent(), "PWëŠ” 15ì ì´ë‚´ë¡œ ì…ë ¥í•´ì£¼ì‹­ì‹œì˜¤.");
+			System.out.println("PW´Â 15ÀÚ ÀÌ³»·Î ÀÔ·ÂÇØÁÖ½Ê½Ã¿À.");
+			//JOptionPane.showMessageDialog(getParent(), "PW´Â 15ÀÚ ÀÌ³»·Î ÀÔ·ÂÇØÁÖ½Ê½Ã¿À.");
 			txt_pw.setText("");
 			result = false;
 		}
 		
 		if(name.isEmpty())
 		{
-			System.out.println("ì´ë¦„ì„ ì…ë ¥í•´ì£¼ì‹­ì‹œì˜¤.");
-			//JOptionPane.showMessageDialog(getParent(), "ì´ë¦„ì„ ì…ë ¥í•´ì£¼ì‹­ì‹œì˜¤.");
+			System.out.println("ÀÌ¸§À» ÀÔ·ÂÇØÁÖ½Ê½Ã¿À.");
+			//JOptionPane.showMessageDialog(getParent(), "ÀÌ¸§À» ÀÔ·ÂÇØÁÖ½Ê½Ã¿À.");
 			result = false;
 		}
 		else if(name.length() > 30)
 		{
-			System.out.println("ì´ë¦„ì€ 30ì ì´ë‚´ë¡œ ì…ë ¥í•´ì£¼ì‹­ì‹œì˜¤.");
-			//JOptionPane.showMessageDialog(getParent(), "ì´ë¦„ì€ 30ì ì´ë‚´ë¡œ ì…ë ¥í•´ì£¼ì‹­ì‹œì˜¤.");
+			System.out.println("ÀÌ¸§Àº 30ÀÚ ÀÌ³»·Î ÀÔ·ÂÇØÁÖ½Ê½Ã¿À.");
+			//JOptionPane.showMessageDialog(getParent(), "ÀÌ¸§Àº 30ÀÚ ÀÌ³»·Î ÀÔ·ÂÇØÁÖ½Ê½Ã¿À.");
 			txt_name.setText("");
 			result = false;
 		}
 			
-		if(position.equals("í•™ìƒ"))
+		if(position.equals("student"))
 		{
 			if(dept.isEmpty())
 			{
-				System.out.println("ì „ê³µì„ ì…ë ¥í•´ì£¼ì‹­ì‹œì˜¤.");
-				//JOptionPane.showMessageDialog(getParent(), "ì „ê³µì„ ì…ë ¥í•´ì£¼ì‹­ì‹œì˜¤.");
+				System.out.println("Àü°øÀ» ÀÔ·ÂÇØÁÖ½Ê½Ã¿À.");
+				//JOptionPane.showMessageDialog(getParent(), "Àü°øÀ» ÀÔ·ÂÇØÁÖ½Ê½Ã¿À.");
 				result = false;
 			}
 			else if(dept.length()>30)
 			{
-				System.out.println("ì „ê³µì€ 30ì ì´ë‚´ë¡œ ì…ë ¥í•´ì£¼ì‹­ì‹œì˜¤.");
-				//JOptionPane.showMessageDialog(getParent(), "ì „ê³µì€ 30ì ì´ë‚´ë¡œ ì…ë ¥í•´ì£¼ì‹­ì‹œì˜¤.");
+				System.out.println("Àü°øÀº 30ÀÚ ÀÌ³»·Î ÀÔ·ÂÇØÁÖ½Ê½Ã¿À.");
+				//JOptionPane.showMessageDialog(getParent(), "Àü°øÀº 30ÀÚ ÀÌ³»·Î ÀÔ·ÂÇØÁÖ½Ê½Ã¿À.");
 				txt_dept.setText("");
 				result = false;
 			}
@@ -748,82 +748,82 @@ public class Lib_info_system extends JFrame implements ActionListener{
 		
 		if(title.isEmpty())
 		{
-			System.out.println("ì œëª©ì„ ì…ë ¥í•´ì£¼ì‹­ì‹œì˜¤.");
-			//JOptionPane.showMessageDialog(getParent(), "ì œëª©ì„ ì…ë ¥í•´ì£¼ì‹­ì‹œì˜¤.");
+			System.out.println("Á¦¸ñÀ» ÀÔ·ÂÇØÁÖ½Ê½Ã¿À.");
+			//JOptionPane.showMessageDialog(getParent(), "Á¦¸ñÀ» ÀÔ·ÂÇØÁÖ½Ê½Ã¿À.");
 			result = false;
 		}
 		else if(title.length() > 50)
 		{
-			System.out.println("ì œëª©ì€ 50ì ì´ë‚´ë¡œ ì…ë ¥í•´ì£¼ì‹­ì‹œì˜¤.");
-			//JOptionPane.showMessageDialog(getParent(), "ì œëª©ì€ 50ì ì´ë‚´ë¡œ ì…ë ¥í•´ì£¼ì‹­ì‹œì˜¤.");
+			System.out.println("Á¦¸ñÀº 50ÀÚ ÀÌ³»·Î ÀÔ·ÂÇØÁÖ½Ê½Ã¿À.");
+			//JOptionPane.showMessageDialog(getParent(), "Á¦¸ñÀº 50ÀÚ ÀÌ³»·Î ÀÔ·ÂÇØÁÖ½Ê½Ã¿À.");
 			txt_title.setText("");
 			result = false;
 		}
 		
 		if(authors.isEmpty())
 		{
-			System.out.println("ì €ìë¥¼ ì…ë ¥í•´ì£¼ì‹­ì‹œì˜¤.");
-			//JOptionPane.showMessageDialog(getParent(), "ì €ìë¥¼ ì…ë ¥í•´ì£¼ì‹­ì‹œì˜¤.");
+			System.out.println("ÀúÀÚ¸¦ ÀÔ·ÂÇØÁÖ½Ê½Ã¿À.");
+			//JOptionPane.showMessageDialog(getParent(), "ÀúÀÚ¸¦ ÀÔ·ÂÇØÁÖ½Ê½Ã¿À.");
 			result = false;
 		}
 		else if(authors.length() > 50)
 		{
-			System.out.println("ì €ìëŠ” 50ì ì´ë‚´ë¡œ ì…ë ¥í•´ì£¼ì‹­ì‹œì˜¤.");
-			//JOptionPane.showMessageDialog(getParent(), "ì €ìëŠ” 50ì ì´ë‚´ë¡œ ì…ë ¥í•´ì£¼ì‹­ì‹œì˜¤.");
+			System.out.println("ÀúÀÚ´Â 50ÀÚ ÀÌ³»·Î ÀÔ·ÂÇØÁÖ½Ê½Ã¿À.");
+			//JOptionPane.showMessageDialog(getParent(), "ÀúÀÚ´Â 50ÀÚ ÀÌ³»·Î ÀÔ·ÂÇØÁÖ½Ê½Ã¿À.");
 			txt_authors.setText("");
 			result = false;
 		}
 		
 		if(publisher.isEmpty())
 		{
-			System.out.println("ì¶œíŒì‚¬ë¥¼ ì…ë ¥í•´ì£¼ì‹­ì‹œì˜¤.");
-			//JOptionPane.showMessageDialog(getParent(), "ì €ìë¥¼ ì…ë ¥í•´ì£¼ì‹­ì‹œì˜¤.");
+			System.out.println("ÃâÆÇ»ç¸¦ ÀÔ·ÂÇØÁÖ½Ê½Ã¿À.");
+			//JOptionPane.showMessageDialog(getParent(), "ÀúÀÚ¸¦ ÀÔ·ÂÇØÁÖ½Ê½Ã¿À.");
 			result = false;
 		}
 		else if(publisher.length() > 20)
 		{
-			System.out.println("ì¶œíŒì‚¬ëŠ” 20ì ì´ë‚´ë¡œ ì…ë ¥í•´ì£¼ì‹­ì‹œì˜¤.");
-			//JOptionPane.showMessageDialog(getParent(), "ì¶œíŒì‚¬ëŠ” 20ì ì´ë‚´ë¡œ ì…ë ¥í•´ì£¼ì‹­ì‹œì˜¤.");
+			System.out.println("ÃâÆÇ»ç´Â 20ÀÚ ÀÌ³»·Î ÀÔ·ÂÇØÁÖ½Ê½Ã¿À.");
+			//JOptionPane.showMessageDialog(getParent(), "ÃâÆÇ»ç´Â 20ÀÚ ÀÌ³»·Î ÀÔ·ÂÇØÁÖ½Ê½Ã¿À.");
 			txt_publisher.setText("");
 			result = false;
 		}
 		
 		if(isbn.isEmpty())
 		{
-			System.out.println("ISBNì„ ì…ë ¥í•´ì£¼ì‹­ì‹œì˜¤.");
-			//JOptionPane.showMessageDialog(getParent(), "ISBNì„ ì…ë ¥í•´ì£¼ì‹­ì‹œì˜¤.");
+			System.out.println("ISBNÀ» ÀÔ·ÂÇØÁÖ½Ê½Ã¿À.");
+			//JOptionPane.showMessageDialog(getParent(), "ISBNÀ» ÀÔ·ÂÇØÁÖ½Ê½Ã¿À.");
 			result = false;
 		}
 		else if(isbn.length() > 30)
 		{
-			System.out.println("ISBNì€ 30ì ì´ë‚´ë¡œ ì…ë ¥í•´ì£¼ì‹­ì‹œì˜¤.");
-			//JOptionPane.showMessageDialog(getParent(), "ISBNì€ 30ì ì´ë‚´ë¡œ ì…ë ¥í•´ì£¼ì‹­ì‹œì˜¤.");
+			System.out.println("ISBNÀº 30ÀÚ ÀÌ³»·Î ÀÔ·ÂÇØÁÖ½Ê½Ã¿À.");
+			//JOptionPane.showMessageDialog(getParent(), "ISBNÀº 30ÀÚ ÀÌ³»·Î ÀÔ·ÂÇØÁÖ½Ê½Ã¿À.");
 			txt_isbn.setText("");
 			result = false;
 		}
 		
-		if(availability.equals("ëŒ€ì—¬ê°€ëŠ¥"))
+		if(availability.equals("´ë¿©°¡´É"))
 		{
 			if(!renting_student.isEmpty())
 			{
-				System.out.println("ë¹Œë ¤ê°„ í•™ìƒì˜ í•™ë²ˆì„ ì…ë ¥í•  ìˆ˜ ì—†ìŠµë‹ˆë‹¤.");
-				//JOptionPane.showMessageDialog(getParent(), "ë¹Œë ¤ê°„ í•™ìƒì˜ í•™ë²ˆì„ ì…ë ¥í•  ìˆ˜ ì—†ìŠµë‹ˆë‹¤.");
+				System.out.println("ºô·Á°£ ÇĞ»ıÀÇ ÇĞ¹øÀ» ÀÔ·ÂÇÒ ¼ö ¾ø½À´Ï´Ù.");
+				//JOptionPane.showMessageDialog(getParent(), "ºô·Á°£ ÇĞ»ıÀÇ ÇĞ¹øÀ» ÀÔ·ÂÇÒ ¼ö ¾ø½À´Ï´Ù.");
 				txt_renting_student.setText("");
 				result = false;
 			}
 		}
-		else if(availability.equals("ëŒ€ì—¬ë¶ˆê°€"))
+		else if(availability.equals("´ë¿©ºÒ°¡"))
 		{
 			if(renting_student.isEmpty())
 			{
-				System.out.println("ë¹Œë ¤ê°„ í•™ìƒì˜ í•™ë²ˆì„ ì…ë ¥í•´ì£¼ì‹­ì‹œì˜¤.");
-				//JOptionPane.showMessageDialog(getParent(), "ë¹Œë ¤ê°„ í•™ìƒì˜ í•™ë²ˆì„ ì…ë ¥í•´ì£¼ì‹­ì‹œì˜¤.");
+				System.out.println("ºô·Á°£ ÇĞ»ıÀÇ ÇĞ¹øÀ» ÀÔ·ÂÇØÁÖ½Ê½Ã¿À.");
+				//JOptionPane.showMessageDialog(getParent(), "ºô·Á°£ ÇĞ»ıÀÇ ÇĞ¹øÀ» ÀÔ·ÂÇØÁÖ½Ê½Ã¿À.");
 				result = false;
 			}
 			else if(renting_student.length()>10)
 			{
-				System.out.println("ë¹Œë ¤ê°„ í•™ìƒì˜ í•™ë²ˆì€ 10ì ì´ë‚´ë¡œ ì…ë ¥í•´ì£¼ì‹­ì‹œì˜¤.");
-				//JOptionPane.showMessageDialog(getParent(), "ë¹Œë ¤ê°„ í•™ìƒì˜ í•™ë²ˆì€ 10ì ì´ë‚´ë¡œ ì •ìˆ˜ë¡œ ì…ë ¥í•´ì£¼ì‹­ì‹œì˜¤.");
+				System.out.println("ºô·Á°£ ÇĞ»ıÀÇ ÇĞ¹øÀº 10ÀÚ ÀÌ³»·Î ÀÔ·ÂÇØÁÖ½Ê½Ã¿À.");
+				//JOptionPane.showMessageDialog(getParent(), "ºô·Á°£ ÇĞ»ıÀÇ ÇĞ¹øÀº 10ÀÚ ÀÌ³»·Î Á¤¼ö·Î ÀÔ·ÂÇØÁÖ½Ê½Ã¿À.");
 				txt_renting_student.setText("");
 				result = false;
 			}
@@ -835,8 +835,8 @@ public class Lib_info_system extends JFrame implements ActionListener{
 					typecheck = renting_student.charAt(i);
 					if( typecheck < 48 || typecheck > 58)
 					{
-						//í•´ë‹¹ charê°’ì´ ìˆ«ìê°€ ì•„ë‹ ê²½ìš°
-						System.out.println("ë¹Œë ¤ê°„ í•™ìƒì˜ í•™ë²ˆì€ ìˆ«ìë¡œ ì…ë ¥í•´ì£¼ì‹­ì‹œì˜¤.");
+						//ÇØ´ç char°ªÀÌ ¼ıÀÚ°¡ ¾Æ´Ò °æ¿ì
+						System.out.println("ºô·Á°£ ÇĞ»ıÀÇ ÇĞ¹øÀº ¼ıÀÚ·Î ÀÔ·ÂÇØÁÖ½Ê½Ã¿À.");
 						txt_renting_student.setText("");
 						result = false;
 						break;
@@ -847,8 +847,8 @@ public class Lib_info_system extends JFrame implements ActionListener{
 		}
 		else
 		{
-			System.out.println("ëŒ€ì—¬ê°€ëŠ¥ì—¬ë¶€ë¥¼ ì„ íƒí•´ì£¼ì‹­ì‹œì˜¤.");
-			//JOptionPane.showMessageDialog(getParent(), "ëŒ€ì—¬ê°€ëŠ¥ì—¬ë¶€ë¥¼ ì„ íƒí•´ì£¼ì‹­ì‹œì˜¤.");
+			System.out.println("´ë¿©°¡´É¿©ºÎ¸¦ ¼±ÅÃÇØÁÖ½Ê½Ã¿À.");
+			//JOptionPane.showMessageDialog(getParent(), "´ë¿©°¡´É¿©ºÎ¸¦ ¼±ÅÃÇØÁÖ½Ê½Ã¿À.");
 			result = false;
 		}
 		return result;
@@ -869,8 +869,8 @@ public class Lib_info_system extends JFrame implements ActionListener{
 			prestate.setString(5, availability);
 			prestate.executeUpdate();
 				
-			System.out.println("ì±… ë“±ë¡ ì„±ê³µ");
-			//JOptionPane.showMessageDialog(getParent(), "ì±… ë“±ë¡ ì„±ê³µ");	
+			System.out.println("Ã¥ µî·Ï ¼º°ø");
+			//JOptionPane.showMessageDialog(getParent(), "Ã¥ µî·Ï ¼º°ø");	
 		} 
 		catch (SQLException e) 
 		{
@@ -893,8 +893,8 @@ public class Lib_info_system extends JFrame implements ActionListener{
 			prestate.setString(6, renting_student);
 			prestate.executeUpdate();
 				
-			System.out.println("ì±… ë“±ë¡ ì„±ê³µ");
-			//JOptionPane.showMessageDialog(getParent(), "ì±… ë“±ë¡ ì„±ê³µ");	
+			System.out.println("Ã¥ µî·Ï ¼º°ø");
+			//JOptionPane.showMessageDialog(getParent(), "Ã¥ µî·Ï ¼º°ø");	
 		} 
 		catch (SQLException e) 
 		{
@@ -947,9 +947,9 @@ public class Lib_info_system extends JFrame implements ActionListener{
 		// TODO Auto-generated method stub
 		
 		if(availability_yes.isSelected())
-			select_availability = "ëŒ€ì—¬ê°€ëŠ¥";	
+			select_availability = "´ë¿©°¡´É";	
 		else if(availability_no.isSelected())
-			select_availability = "ëŒ€ì—¬ë¶ˆê°€";
+			select_availability = "´ë¿©ºÒ°¡";
 		
 		Object button = e.getSource();
 		//
@@ -958,12 +958,12 @@ public class Lib_info_system extends JFrame implements ActionListener{
 			String id = txt_id.getText();
 			String pw = txt_pw.getText();
 			String get_position;
-			// DBì—°ê²°
+			// DB¿¬°á
 			connect();
 			if(login(id, pw))
 			{
 				get_position = get_position(id, pw);
-				if(get_position.equals("ì‚¬ì„œ"))
+				if(get_position.equals("librarian"))
 					able_by_librarian_login();
 				else
 					able_by_student_login();
@@ -972,8 +972,8 @@ public class Lib_info_system extends JFrame implements ActionListener{
 			}
 			else
 			{
-				System.out.println("ì¼ì¹˜í•˜ëŠ” ì •ë³´ê°€ ì—†ìŠµë‹ˆë‹¤.");
-				//JOptionPane.showMessageDialog(getParent(), "ì¼ì¹˜í•˜ëŠ” ì •ë³´ê°€ ì—†ìŠµë‹ˆë‹¤.");
+				System.out.println("ÀÏÄ¡ÇÏ´Â Á¤º¸°¡ ¾ø½À´Ï´Ù.");
+				//JOptionPane.showMessageDialog(getParent(), "ÀÏÄ¡ÇÏ´Â Á¤º¸°¡ ¾ø½À´Ï´Ù.");
 			}	
 			
 		}
@@ -995,14 +995,14 @@ public class Lib_info_system extends JFrame implements ActionListener{
 		//
 		else if(button == b_librarian)
 		{
-			select_position = "ì‚¬ì„œ";
+			select_position = "librarian";
 			layout_librarian_signup();
 			table.updateUI();
 		}
 		//
 		else if(button == b_student)
 		{
-			select_position = "í•™ìƒ";
+			select_position = "student";
 			layout_student_signup();
 			table.updateUI();
 		}
@@ -1017,7 +1017,7 @@ public class Lib_info_system extends JFrame implements ActionListener{
 			
 			if(check_user_info(id, pw, name, dept, select_position))
 			{
-				if(select_position.equals("ì‚¬ì„œ"))
+				if(select_position.equals("librarian"))
 					user_insert(id, pw, name, select_position);
 				else
 					user_insert(id, pw, name, dept, select_position);
@@ -1048,7 +1048,7 @@ public class Lib_info_system extends JFrame implements ActionListener{
 			if(check_book_info(title, authors, publisher, isbn, 
 					select_availability, renting_student))
 			{
-				if(select_availability.equals("ëŒ€ì—¬ê°€ëŠ¥"))
+				if(select_availability.equals("´ë¿©°¡´É"))
 					insert(title, authors, publisher, isbn, select_availability);
 				else
 					insert(title, authors, publisher, isbn, select_availability, renting_student);
