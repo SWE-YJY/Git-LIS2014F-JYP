@@ -916,11 +916,70 @@ public class Lib_info_system extends JFrame implements ActionListener{
 	//not realization
 	private boolean View_my_rentallist(String id) {
 		// TODO Auto-generated method stub
-		return false;
+		boolean result = false;
+		Vector list = new Vector();
+		String sql = "select * from book where rental_id ='"+id+"' ;";
+	    try
+	    {
+	        prestate = conn.prepareStatement(sql);
+	        rs = prestate.executeQuery();
+	        while (rs.next())
+	        {
+	            Vector record = new Vector();    
+	            record.add(rs.getString("title"));
+	            record.add(rs.getString("author"));
+	            record.add(rs.getString("publisher"));
+	            record.add(rs.getString("isbn"));
+	            record.add(rs.getString("availability"));
+	            record.add(rs.getString("rental_id"));
+	            record.add(rs.getInt("book_number"));
+	            list.add(record);
+	            
+	            result = true;
+	        }
+	        model.setList(list);
+	        this.repaint();
+	    }
+	    catch (SQLException e)
+	    {
+	        e.printStackTrace();
+	    }
+	    return result;
+		
 	}
 	//not realization
 	private void search() {
 		// TODO Auto-generated method stub
+		Vector list = new Vector();
+	    String keyword = txt_keyword.getText();
+	    String id = txt_id.getText();
+	    String sql = "select * from book "
+	            + "where title like '%"+keyword+"%'";         
+	    try
+	    {
+	        prestate = conn.prepareStatement(sql);
+	        rs = prestate.executeQuery();
+	        while (rs.next())
+	        {
+	            Vector record = new Vector();
+	             
+	            record.add(rs.getString("title"));
+	            record.add(rs.getString("author"));
+	            record.add(rs.getString("publisher"));
+	            record.add(rs.getString("isbn"));
+	            record.add(rs.getString("availability"));
+	            record.add(rs.getString("rental_id"));
+	            record.add(rs.getInt("book_number"));
+	            list.add(record);
+	        }
+	         
+	        model.setList(list);
+	        this.repaint();
+	    }
+	    catch (SQLException e)
+	    {
+	        e.printStackTrace();
+	    }
 	}
 	//
 	private String get_position(String id, String pw) {
@@ -1079,12 +1138,19 @@ public class Lib_info_system extends JFrame implements ActionListener{
 		else if(button == b_rent_list)
 		{
 			String id = txt_id.getText();
+			// String View_my_rentallist;
 			if(View_my_rentallist(id))
-			{
-				able_by_student_login();
-				lib_clear();
-				table.updateUI();
-			}
+            {
+                able_by_student_login();
+                lib_clear();
+                table.updateUI();
+            }
+            else
+            {
+                System.out.println("대여한 책이 없습니다.");
+                //JOptionPane.showMessageDialog(getParent(), "일치하는 정보가 없습니다.");
+            }
+			  
 			
 		}
 		//not realization
